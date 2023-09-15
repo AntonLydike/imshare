@@ -1,0 +1,125 @@
+html {
+    margin: 0px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #111;
+    min-height: 100vh;
+}
+
+body {
+    margin: 0px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 16px;
+    line-height: 2;
+}
+
+main {
+    max-width: 1080px;
+    width: 90vw;
+    flex-grow: 1;
+}
+
+h1 {
+    font-weight: 400;
+    font-size: 4rem;
+    border-bottom: 1px dashed #aaa;
+}
+
+.image-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-item {
+    height: 300px;
+    width: 300px;
+    margin: 22px;
+    cursor: pointer;
+
+    border-radius: 3px;
+    overflow: hidden;
+
+    box-shadow:
+  0.2px 0.3px 1.1px rgba(0, 0, 0, 0.022),
+  0.5px 0.8px 2.8px rgba(0, 0, 0, 0.031),
+  1.1px 1.6px 5.7px rgba(0, 0, 0, 0.039),
+  2.2px 3.3px 11.7px rgba(0, 0, 0, 0.048),
+  6px 9px 32px rgba(0, 0, 0, 0.07)
+;
+  transition: .2s;
+}
+
+.image-item:hover {
+    box-shadow:
+  0.5px 0.5px 0.5px rgba(0, 0, 0, 0.028),
+  1.4px 1.4px 1.4px rgba(0, 0, 0, 0.04),
+  2.8px 2.8px 2.8px rgba(0, 0, 0, 0.05),
+  5.8px 5.8px 5.8px rgba(0, 0, 0, 0.062),
+  16px 16px 16px rgba(0, 0, 0, 0.09)
+;
+  transform: translate(0, -2px);
+}
+
+.image-item > .image-item-bg {
+    height: 300px;
+    width: 300px;
+    background-position: center;
+    background-size: cover;
+}
+
+footer {
+    max-width: 1080px;
+    width: 90vw;
+    border-top: 1px dashed #aaa;
+    text-align: center;
+    padding: 8px, 16px;
+}
+
+#lightbox {
+    display: none;
+    opacity: 0;
+    transition: .3s;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#lightbox.state-visible {
+    display: block;
+    opacity: 1;
+}
+
+.lightbox-fg {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    right: 30px;
+    bottom: 30px;
+    z-index: 2;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-fg img {
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 3px;
+}
+
+.lightbox-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.9);
+    z-index: 1;
+}
