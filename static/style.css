@@ -30,37 +30,35 @@ h1 {
 .image-container {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    gap: 22px;
+    flex-wrap: wrap;
 }
 
 .image-item {
     height: 300px;
     width: 300px;
-    margin: 22px;
     cursor: pointer;
 
     border-radius: 3px;
     overflow: hidden;
 
     box-shadow:
-  0.2px 0.3px 1.1px rgba(0, 0, 0, 0.022),
-  0.5px 0.8px 2.8px rgba(0, 0, 0, 0.031),
-  1.1px 1.6px 5.7px rgba(0, 0, 0, 0.039),
-  2.2px 3.3px 11.7px rgba(0, 0, 0, 0.048),
-  6px 9px 32px rgba(0, 0, 0, 0.07)
-;
+    0.2px 0.3px 1.1px rgba(0, 0, 0, 0.022),
+    0.5px 0.8px 2.8px rgba(0, 0, 0, 0.031),
+    1.1px 1.6px 5.7px rgba(0, 0, 0, 0.039),
+    2.2px 3.3px 11.7px rgba(0, 0, 0, 0.048),
+    6px 9px 32px rgba(0, 0, 0, 0.07);
   transition: .2s;
 }
 
 .image-item:hover {
     box-shadow:
-  0.5px 0.5px 0.5px rgba(0, 0, 0, 0.028),
-  1.4px 1.4px 1.4px rgba(0, 0, 0, 0.04),
-  2.8px 2.8px 2.8px rgba(0, 0, 0, 0.05),
-  5.8px 5.8px 5.8px rgba(0, 0, 0, 0.062),
-  16px 16px 16px rgba(0, 0, 0, 0.09)
-;
+    0.5px 0.5px 0.5px rgba(0, 0, 0, 0.028),
+    1.4px 1.4px 1.4px rgba(0, 0, 0, 0.04),
+    2.8px 2.8px 2.8px rgba(0, 0, 0, 0.05),
+    5.8px 5.8px 5.8px rgba(0, 0, 0, 0.062),
+    16px 16px 16px rgba(0, 0, 0, 0.09);
   transform: translate(0, -2px);
 }
 

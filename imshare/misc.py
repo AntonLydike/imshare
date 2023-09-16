@@ -2,6 +2,7 @@ import pathlib
 import shutil
 import hashlib
 
+
 def log_action(action: str, msg: str):
     print(f"[ACTION] {action}: {msg}")
 
@@ -29,11 +30,9 @@ def rm_r(path: str):
     shutil.rmtree(path, ignore_errors=True)
 
 
-
 def hash_image(path: str):
-    with open(path, 'rb') as img:
+    with open(path, "rb") as img:
         hash = hashlib.sha1()
-        while (data := img.read(65536)):
+        while data := img.read(65536):
             hash.update(data)
         return hash.hexdigest()
-

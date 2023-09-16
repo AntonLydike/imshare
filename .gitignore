@@ -1,5 +1,4 @@
 web
 state/*
-!state/index.md
-!state/404.md
+!state/*.md
 __pycache__
