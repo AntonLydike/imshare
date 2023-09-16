@@ -25,6 +25,7 @@ h1 {
     font-weight: 400;
     font-size: 4rem;
     border-bottom: 1px dashed #aaa;
+    line-height: 1.25;
 }
 
 .image-container {
@@ -120,4 +121,8 @@ footer {
     bottom: 0;
     background-color: rgba(0,0,0,0.9);
     z-index: 1;
+}
+
+footer p {
+    margin: 8px 0;
 }

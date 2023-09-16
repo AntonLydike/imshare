@@ -6,9 +6,10 @@ import markdown
 import os
 import subprocess
 
+from functools import cache
 
-THUMB_BYTES = "300kb"
-THUMB_SIZE = "300x300"
+THUMB_BYTES = "200kb"
+THUMB_SIZE = "600x600"
 
 MAIN_BYTES = "8MB"
 
@@ -26,17 +27,20 @@ def build_statics():
     rm_r("web/static")
     cp_r("static", "web/static")
 
+    if os.path.exists("state/favicon.ico"):
+        cp_r("state/favicon.ico", "web/favicon.ico")
+
+    footer = md_file_as_html("state/footer.md")
+
     log_action("building static", "/index.html")
-    with open("state/index.md", "r") as f:
-        html = markdown.markdown(f.read())
+    html = md_file_as_html("state/index.md")
     with open("web/index.html", "w") as f:
-        f.write(static_html_template(html, "Image sharing"))
+        f.write(static_html_template(html, "Image sharing", footer))
 
     log_action("building static", "/404.html")
-    with open("state/404.md", "r") as f:
-        html = markdown.markdown(f.read())
+    html = md_file_as_html("state/404.md")
     with open("web/404.html", "w") as f:
-        f.write(static_html_template(html, "404 - Not Found!"))
+        f.write(static_html_template(html, "404 - Not Found!", footer))
 
 
 def build_shares():
@@ -61,16 +65,19 @@ def build_share_html(share: str, img_ids: list[str]):
     share_id = os.path.basename(share)
     html = md_file_as_html(os.path.join(share, "index.md"))
     footer = md_file_as_html("state/footer.md")
-    content = fill_share_template(share_id, html, img_ids, footer)
+    share_info = md_file_as_html("state/share_info.md")
+    content = fill_share_template(share_id, html, img_ids, share_info, footer)
     mkdir("web/s/" + share_id)
     with open(f"web/s/{share_id}/index.html", "w") as f:
         log_action("create html", f"{share_id}/index.html")
         f.write(content)
 
 
+@cache
 def md_file_as_html(md_file: str):
     if not os.path.exists(md_file):
         return ""
+    log_action("convert markdown", md_file)
     with open(md_file, "r") as f:
         return markdown.markdown(f.read())
 
@@ -86,6 +93,10 @@ def process_image(img_path: str):
             [
                 "convert",
                 img_path,
+                "-gravity",
+                "Center",
+                "-extent",
+                "1:1",
                 "-define",
                 f"jpeg:extent={THUMB_BYTES}",
                 "-resize",
@@ -96,6 +107,12 @@ def process_image(img_path: str):
     if not os.path.exists(res_path):
         log_action("convert image", f"{img_path} with id {img_id}")
         subprocess.check_call(
-            ["convert", img_path, "-define", f"jpeg:extent={MAIN_BYTES}", res_path]
+            [
+                "convert",
+                img_path,
+                "-define",
+                f"jpeg:extent={MAIN_BYTES}",
+                res_path,
+            ]
         )
     return img_id
