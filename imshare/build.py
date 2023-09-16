@@ -32,12 +32,11 @@ def build_statics():
     with open("web/index.html", "w") as f:
         f.write(static_html_template(html, "Image sharing"))
 
-    if os.path.exists("state/404.md"):
-        log_action("building static", "/404.html")
-        with open("state/404.md", "r") as f:
-            html = markdown.markdown(f.read())
-        with open("web/404.html", "w") as f:
-            f.write(static_html_template(html, "404 - Not Found!"))
+    log_action("building static", "/404.html")
+    with open("state/404.md", "r") as f:
+        html = markdown.markdown(f.read())
+    with open("web/404.html", "w") as f:
+        f.write(static_html_template(html, "404 - Not Found!"))
 
 
 def build_shares():

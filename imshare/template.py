@@ -23,6 +23,7 @@ def fill_share_template(
     share_id: str, content: str, images: list[str], footer: str
 ) -> str:
     log_action("template", f"share {share_id} with {images}")
+    preloads = "\n    ".join(preload_directive(f"/images/{id}.jpg") for id in images)
     return f"""
     <!DOCTYPE html>
 <html lang="en">
@@ -31,6 +32,7 @@ def fill_share_template(
     <link rel="stylesheet" href="/static/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>image share</title>
+    {preloads}
 </head>
 <body>
     <main>
@@ -66,3 +68,7 @@ def make_lightbox(img_id: str) -> str:
         <div class="image-item-bg" style="background-image: url('/images/{img_id}.jpg')"></div>
     </div>
     """
+
+
+def preload_directive(url: str, kind: str = "image") -> str:
+    return f'<link rel="preload" href="{url}" as="{kind}"/>'

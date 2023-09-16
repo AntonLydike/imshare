@@ -1,7 +1,7 @@
 import sys
 
 from imshare.build import build
-from imshare.gen_config import gen_nginx_conf
+from imshare.gen_config import print_nginx_conf
 
 
 def main(argv: list[str]):
@@ -11,7 +11,7 @@ def main(argv: list[str]):
             build()
         case ["gen-config", cfg]:
             if cfg.lower() == "nginx":
-                gen_nginx_conf()
+                print_nginx_conf()
             else:
                 print("Unknown configuration provider")
                 return 1
