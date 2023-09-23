@@ -4,7 +4,9 @@ from .template import fill_share_template, static_html_template
 import glob
 import markdown
 import os
+import csv
 import subprocess
+from multiprocessing.pool import ThreadPool
 
 from functools import cache
 
@@ -54,11 +56,26 @@ def get_shares() -> list[str]:
 
 def build_share(share: str):
     log_action("building share", share)
-    img_ids = [
-        process_image(os.path.join(share, img))
-        for img in glob.iglob("*.jpg", root_dir=share)
-    ]
+    with ThreadPool() as tp:
+        img_ids = tp.map(process_image, get_share_images(share))
     build_share_html(share, img_ids)
+
+
+def get_share_images(share: str):
+    csv_data: str = subprocess.check_output(
+        [
+            "exiftool",
+            "-csv",
+            "-CreateDate",
+            "-d",
+            "%s",
+        ]
+        + list(os.path.join(share, img) for img in glob.iglob("*.jpg", root_dir=share)),
+        text=True,
+        stderr=subprocess.DEVNULL,
+    )
+    lines = csv.reader(csv_data.splitlines()[1:], delimiter=",")
+    return [l[0] for l in sorted(lines, key=lambda l: int(l[1]))]
 
 
 def build_share_html(share: str, img_ids: list[str]):
