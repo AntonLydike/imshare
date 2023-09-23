@@ -34,7 +34,6 @@ def fill_share_template(
     <link rel="stylesheet" href="/static/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>image share</title>
-    {preloads}
 </head>
 <body>
     <main>

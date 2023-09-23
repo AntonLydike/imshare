@@ -65,8 +65,8 @@ h1 {
 }
 
 .image-item > .image-item-bg {
-    height: 300px;
-    width: 300px;
+    height: 100%;
+    width: 100%;
     background-position: center;
     background-size: cover;
 }
@@ -126,4 +126,37 @@ footer {
 
 footer p {
     margin: 8px 0;
+}
+
+@media (max-width: 900px) {{
+    h1 {
+        font-size: 3.5rem;
+    }
+    
+    .lightbox-fg {
+        left: 5px;
+        right: 5px;
+        top: 5px;
+        bottom: 5px;
+    }
+    
+    .image-item {
+        width: calc(45vw - 11px);
+        height: calc(45vw - 11px);
+    }
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    .image-container {
+        gap: 10px;
+    }
+    
+    .image-item {
+        width: calc(45vw - 5px);
+        height: calc(45vw - 5px);
+    }
 }
