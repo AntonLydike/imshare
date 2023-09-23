@@ -34,6 +34,7 @@ def fill_share_template(
     <link rel="stylesheet" href="/static/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image share</title>
+
     <meta name="title" property="og:title" content="Image share"/>
     <meta name="description" property="og:description" content="An image share of {len(images)} images using the imshare platform on pikz.cc."/>
     <meta name="type" property="og:type" content="website"/>
