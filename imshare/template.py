@@ -33,7 +33,17 @@ def fill_share_template(
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>image share</title>
+    <title>Image share</title>
+    <meta name="title" property="og:title" content="Image share"/>
+    <meta name="description" property="og:description" content="An image share of {len(images)} images using the imshare platform on pikz.cc."/>
+    <meta name="type" property="og:type" content="website"/>
+    <meta name="image" property="og:image" content="https://pikz.cc/images/{images[0]}_t.jpg"/>
+    <meta name="url" property="og:url" content="https://pikz.cc/s/{share_id}"/>
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Image share">
+    <meta name="twitter:description" content="An image share of {len(images)} images using the imshare platform on pikz.cc."/>
+    <meta name="twitter:image" content="https://pikz.cc/images/{images[0]}_t.jpg"/>
 </head>
 <body>
     <main>
