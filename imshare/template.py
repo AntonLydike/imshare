@@ -66,6 +66,7 @@ def fill_share_template(
         <div class="lightbox-bg"></div>
         <div class="lightbox-fg">
             <img src=""/>
+            <div class="license-info">Photo by Anton Lydike, licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a></div>
         </div>
     </div>
 

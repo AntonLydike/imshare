@@ -125,6 +125,30 @@ footer {
     z-index: 1;
 }
 
+
+
+.license-info {
+    position: absolute;
+    color: #fff;
+    background-color: rgba(0,0,0,0.6);
+    padding: 6px 12px 4px 12px;
+    line-height: 1;
+    bottom: 0;
+    font-size: 8px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.license-info a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.license-info a:hover {
+    text-decoration: underline
+}
+
 footer p {
     margin: 8px 0;
 }
