@@ -1,3 +1,4 @@
+import re
 from .misc import mkdir, hash_image, cp_r, log_action, rm_r
 from .template import fill_share_template, static_html_template
 
@@ -60,6 +61,16 @@ def build_share(share: str):
         img_ids = tp.map(process_image, get_share_images(share))
     build_share_html(share, img_ids)
 
+def discover_images_in_share(share: str) -> list[str]:
+    """
+    find all image files inside folder share
+    """
+    is_image_file = re.compile(r'.*\.(jpg|jpeg|png)', re.IGNORECASE)
+    return [
+        os.path.join(share, f)
+        for f in os.listdir(share)
+        if os.path.isfile(os.path.join(share, f)) and is_image_file.fullmatch(f)
+    ]
 
 def get_share_images(share: str):
     csv_data: str = subprocess.check_output(
@@ -70,7 +81,7 @@ def get_share_images(share: str):
             "-d",
             "%s",
         ]
-        + list(os.path.join(share, img) for img in glob.iglob("*.jpg", root_dir=share)),
+        + discover_images_in_share(share),
         text=True,
         stderr=subprocess.DEVNULL,
     )
