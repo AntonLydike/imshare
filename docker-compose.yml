@@ -1,0 +1,18 @@
+version: '3'
+services:
+  nginx:
+    build: .
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./web/:/var/www/pikz.cc/:ro
+      - ./conf/nginx/:/etc/nginx/conf.d/:ro
+      - ./conf/certbot/www:/var/www/certbot/:ro
+      - ./conf/certbot/certs/:/etc/nginx/ssl/:ro
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./conf/certbot/www/:/var/www/certbot/:rw
+      - ./conf/certbot/certs/:/etc/letsencrypt/:rw
+    command: "bash -c 'while true; sleep 12; done;'"
