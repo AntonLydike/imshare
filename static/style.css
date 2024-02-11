@@ -103,7 +103,6 @@ footer {
     right: 30px;
     bottom: 30px;
     z-index: 2;
-    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -113,6 +112,8 @@ footer {
     max-height: 100%;
     max-width: 100%;
     border-radius: 3px;
+    transition: .15s filter;
+
 }
 
 .lightbox-bg {
@@ -123,6 +124,12 @@ footer {
     bottom: 0;
     background-color: rgba(0,0,0,0.9);
     z-index: 1;
+}
+
+
+/* loading indicator */
+#lightbox.state-loading img {
+    filter: blur(8px) saturate(.4);
 }
 
 .license-info {

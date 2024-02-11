@@ -25,4 +25,4 @@ Images are processed and stored in a content-adressible manner in /web/mages
 
 To build the static files, run `python -m imshare build`.
 
-Requires imagemagic and the `markdown` python package to run.
+Requires imagemagic, exiftool and the `markdown` python package to run.
