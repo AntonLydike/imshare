@@ -2,6 +2,7 @@ import pathlib
 import shutil
 import hashlib
 import glob
+from functools import cache
 
 
 def log_action(action: str, msg: str):
@@ -30,7 +31,7 @@ def rm_r(path: str):
     log_action("recursive delete", path)
     shutil.rmtree(path, ignore_errors=True)
 
-
+@cache
 def hash_image(path: str):
     with open(path, "rb") as img:
         hash = hashlib.sha1()

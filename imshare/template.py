@@ -57,6 +57,8 @@ def fill_share_template(
         {"".join(make_lightbox(image) for image in images)}
         </div>
 
+        <p>Download everything as a zip: <a href="/download/{share_id}.zip">{share_id}.zip</a></p>
+
         {additional_info}
     </main>
     <footer>
