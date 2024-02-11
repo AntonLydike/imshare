@@ -25,4 +25,20 @@ Images are processed and stored in a content-adressible manner in /web/mages
 
 To build the static files, run `python -m imshare build`.
 
-Requires imagemagic, exiftool and the `markdown` python package to run.
+Requires imagemagic, exiftool installed and the `markdown` python package to run.
+
+## Features:
+
+- [X] Compress images for serving on the web (8MB file size)
+- [X] Generate the right headers for link preview generators
+- [X] Have small thumbnails
+- [X] Cache images aggressively
+- [X] Have visible license notice
+- [X] Static hosting friendly
+- [X] Responsive design, minimal style
+- [X] Image preview in lightbox-style pop-up
+- [X] Bulk download as zip (requires NGINX plugin)
+- [X] Next/prev controls in lightbox
+- [ ] Noscript friendly
+- [ ] Add a way to zoom into the images when in lightbox mode
+- [ ] Add license information to EXIF data

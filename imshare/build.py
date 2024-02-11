@@ -63,16 +63,18 @@ def build_share(share: str):
     build_share_html(share, img_ids)
     build_share_files_txt(share, zip(images, img_ids))
 
+
 def discover_images_in_share(share: str) -> list[str]:
     """
     find all image files inside folder share
     """
-    is_image_file = re.compile(r'.*\.(jpg|jpeg|png)', re.IGNORECASE)
+    is_image_file = re.compile(r".*\.(jpg|jpeg|png)", re.IGNORECASE)
     return [
         os.path.join(share, f)
         for f in os.listdir(share)
         if os.path.isfile(os.path.join(share, f)) and is_image_file.fullmatch(f)
     ]
+
 
 def get_share_images(share: str):
     csv_data: str = subprocess.check_output(
@@ -115,11 +117,11 @@ def build_share_files_txt(share: str, images: list[tuple[str, str]]):
     with open(f"web/s/{share_id}/files.txt", "w") as f:
         log_action("create files.txt", f"{share_id}/files.txt")
         for name, id in images:
-            f.write("- {} /images/{}.jpg {}\n".format(
-                os.path.getsize(f'web/images/{id}.jpg'),
-                id,
-                os.path.basename(name)
-            ))
+            f.write(
+                "- {} /images/{}.jpg {}\n".format(
+                    os.path.getsize(f"web/images/{id}.jpg"), id, os.path.basename(name)
+                )
+            )
 
 
 @cache
