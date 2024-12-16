@@ -8,6 +8,7 @@ import os
 import csv
 import subprocess
 from multiprocessing.pool import ThreadPool
+import datetime
 
 from functools import cache
 
@@ -96,7 +97,7 @@ def get_share_images(share: str):
 def build_share_html(share: str, img_ids: list[str]):
     share_id = os.path.basename(share)
     html = md_file_as_html(os.path.join(share, "index.md"))
-    footer = md_file_as_html("state/footer.md")
+    footer = get_footer()
     share_info = md_file_as_html("state/share_info.md")
     content = fill_share_template(share_id, html, img_ids, share_info, footer)
     mkdir("web/s/" + share_id)
@@ -104,6 +105,12 @@ def build_share_html(share: str, img_ids: list[str]):
         log_action("create html", f"{share_id}/index.html")
         f.write(content)
 
+
+@cache
+def get_footer():
+    return md_file_as_html("state/footer.md").format(
+        year=datetime.date.today().year,
+    )
 
 def build_share_files_txt(share: str, images: list[tuple[str, str]]):
     """

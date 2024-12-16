@@ -1,1 +1,1 @@
-&copy; Copyright 2023 Anton Lydike
+&copy; Copyright {year} Anton Lydike
