@@ -2,6 +2,7 @@ import pathlib
 import shutil
 import hashlib
 import glob
+import zlib
 from functools import cache
 
 
@@ -39,3 +40,12 @@ def hash_image(path: str):
         while data := img.read(65536):
             hash.update(data)
         return hash.hexdigest()
+
+
+@cache
+def crc32(path: str):
+    with open(path, "rb") as img:
+        checksum = 0
+        while data := img.read(1024 * 1024):
+            checksum = zlib.crc32(data, checksum)
+        return checksum & 0xFFFFFFFF

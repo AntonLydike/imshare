@@ -1,6 +1,7 @@
 import re
-from .misc import mkdir, hash_image, cp_r, log_action, rm_r
+from .misc import crc32, mkdir, hash_image, cp_r, log_action, rm_r
 from .template import fill_share_template, static_html_template
+import imshare.conf as conf
 
 import glob
 import markdown
@@ -11,11 +12,6 @@ from multiprocessing.pool import ThreadPool
 import datetime
 
 from functools import cache
-
-THUMB_BYTES = "200kb"
-THUMB_SIZE = "600x600"
-
-MAIN_BYTES = "8MB"
 
 
 def build():
@@ -59,7 +55,7 @@ def get_shares() -> list[str]:
 def build_share(share: str):
     log_action("building share", share)
     images = get_share_images(share)
-    with ThreadPool() as tp:
+    with ThreadPool(conf.CONF.num_jobs) as tp:
         img_ids = tp.map(process_image, images)
     build_share_html(share, img_ids)
     build_share_files_txt(share, zip(images, img_ids))
@@ -112,11 +108,12 @@ def get_footer():
         year=datetime.date.today().year,
     )
 
+
 def build_share_files_txt(share: str, images: list[tuple[str, str]]):
     """
     builds a files.txt file containing:
 
-    - <size> /images/<hash>.jpg <name>
+    <crc32> <size> /images/<hash>.jpg <name>
 
     for each image in the share
     """
@@ -125,8 +122,11 @@ def build_share_files_txt(share: str, images: list[tuple[str, str]]):
         log_action("create files.txt", f"{share_id}/files.txt")
         for name, id in images:
             f.write(
-                "- {} /images/{}.jpg {}\n".format(
-                    os.path.getsize(f"web/images/{id}.jpg"), id, os.path.basename(name)
+                "{:08x} {} /images/{}.jpg {}\n".format(
+                    crc32(f"web/images/{id}.jpg"),
+                    os.path.getsize(f"web/images/{id}.jpg"),
+                    id,
+                    os.path.basename(name),
                 )
             )
 
@@ -149,16 +149,16 @@ def process_image(img_path: str):
         log_action("create thumbnail", f"{img_path} with id {img_id}")
         subprocess.check_call(
             [
-                "convert",
+                "magick",
                 img_path,
                 "-gravity",
                 "Center",
                 "-extent",
                 "1:1",
                 "-define",
-                f"jpeg:extent={THUMB_BYTES}",
+                f"jpeg:extent={conf.CONF.thumb_bytes}",
                 "-resize",
-                THUMB_SIZE,
+                conf.CONF.thumb_size,
                 thumb_path,
             ]
         )
@@ -166,11 +166,25 @@ def process_image(img_path: str):
         log_action("convert image", f"{img_path} with id {img_id}")
         subprocess.check_call(
             [
-                "convert",
+                "magick",
                 img_path,
                 "-define",
-                f"jpeg:extent={MAIN_BYTES}",
+                f"jpeg:extent={conf.CONF.image_bytes}",
                 res_path,
             ]
         )
     return img_id
+
+
+def process_images(shares: list[str]):
+    """
+    Process all images in the given shares, applying downscaling and thumbnail
+    generation.
+    """
+    with ThreadPool(conf.CONF.num_jobs) as tp:
+        jobs = [
+            tp.map_async(process_image, discover_images_in_share(share))
+            for share in shares
+        ]
+        for job in jobs:
+            job.wait()
