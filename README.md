@@ -9,7 +9,6 @@ Folder structure:
      - `notes.md`: Notes regarding the share, not visible to the user. Reserved for future use (e.g. in an admin client)
      - `index.md`: Optional message attached to the share
      - `*.jpg`: Images that are to be shared (will be copied over to a web-accesible location, thumbnails will be generated)
-     - `state.json`: JSON searilized state information attached to the share such as last updated time, content hash, etc. (not yet in use)
    - `index.md`: Content shown on the landing page
    - `404.md`: 404 Message for unknown shares
  - `static`: Static files that are copied to the web:
@@ -20,6 +19,13 @@ Folder structure:
 Static files are generated into /web/static/...
 
 Images are processed and stored in a content-adressible manner in /web/mages
+
+No server-side code is needed, except NGINX with a plugin for zip files.
+
+## Requirements
+
+This expects to be deployed to NGINX serving the files with the [zip](https://nginx-extras.getpagespeed.com/modules/zip/) addon enabled.
+Zip is used to on-the-fly compress the static images into a zip archive, so that the server does not need to store both versions.
 
 ## Usage:
 
