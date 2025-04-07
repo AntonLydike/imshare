@@ -1,14 +1,12 @@
 (() => {
 const lightbox = document.querySelector("#lightbox");
 const lightbox_img = lightbox.querySelector('img');
-const enable_galery = Array.isArray(window.lightbox_urls);
 
 // once the image has loaded, remove the state loading class and start
 // preloading the next image.
-lightbox_img.addEventListener('load', evt => {
+lightbox_img.addEventListener('load', _ => {
     lightbox.classList.remove("state-loading")
-    if (enable_galery)
-        preload_image(url_with_offset(1))
+    preload_image(url_with_offset(1))
 })
 
 document.querySelectorAll('.lightboxed').forEach(node => {
@@ -41,13 +39,18 @@ function hide() {
 
 // galery controls options:
 // expand possibly relative urls to absolute ones
-const lightbox_urls = enable_galery ? (() => {
+const lightbox_urls = (() => {
     const a = document.createElement("a")
-    return window.lightbox_urls.map(url => {
+    return Array.from(document.querySelectorAll('.lightboxed')).map(elem => {
+        const url = elem.getAttribute('data-lightbox-href')
+        if (url === null) {
+            console.error("Malformed lightboxed image:", elem)
+            return null;
+        }
         a.href = url;
         return a.href
-    })
-})() : []
+    }).filter(x => x !== null)
+})()
 
 // get image that is <offset> elements from the current one (or null)
 function url_with_offset(offset) {
@@ -60,7 +63,7 @@ function url_with_offset(offset) {
 // display the <offset> image
 function move_galery(offset) {
     const url = url_with_offset(offset)
-    if (!enable_galery || url === null) return
+    if (url === null) return
     lightbox.classList.add('state-loading')
     show(url)
 }
@@ -85,16 +88,15 @@ const actions = {
     "Escape": hide
 }
 
-if (enable_galery) {
-    document.body.classList.add("enable-galery");
+document.body.classList.add("enable-galery");
 
-    document.addEventListener('keydown', evt => {
-        if (evt.target != document.body) return
-        if (actions.hasOwnProperty(evt.key)) {
-            actions[evt.key]()
-        }
-    })
-}
+document.addEventListener('keydown', evt => {
+    if (evt.target != document.body) return
+    if (actions.hasOwnProperty(evt.key)) {
+        actions[evt.key]()
+    }
+})
+
 
 // image preloading logic:
 const preloaded_urls = []

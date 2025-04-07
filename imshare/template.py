@@ -25,6 +25,9 @@ def fill_share_template(
     share_id: str, content: str, images: list[str], additional_info: str, footer: str
 ) -> str:
     log_action("template", f"share {share_id} with {images}")
+
+    descr_text = f"Anton shared {len(images)} images with you!"
+
     return f"""
     <!DOCTYPE html>
 <html lang="en">
@@ -35,15 +38,17 @@ def fill_share_template(
     <title>Image share</title>
 
     <meta name="title" property="og:title" content="Image share"/>
-    <meta name="description" property="og:description" content="An image share of {len(images)} images using the imshare platform on pikz.cc."/>
+    <meta name="description" property="og:description" content="{descr_text}"/>
     <meta name="type" property="og:type" content="website"/>
     <meta name="image" property="og:image" content="https://pikz.cc/images/{images[0]}_t.jpg"/>
     <meta name="url" property="og:url" content="https://pikz.cc/s/{share_id}"/>
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Image share">
-    <meta name="twitter:description" content="An image share of {len(images)} images using the imshare platform on pikz.cc."/>
+    <meta name="twitter:description" content="{descr_text}"/>
     <meta name="twitter:image" content="https://pikz.cc/images/{images[0]}_t.jpg"/>
+
+    <script defer data-domain="pikz.cc" src="https://plausible.datenvorr.at/js/script.js"></script>
 </head>
 <body>
     <main>
