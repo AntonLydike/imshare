@@ -14,9 +14,11 @@ import datetime
 from functools import cache
 
 
-def build():
+def build(shares: list[str] | None = None):
     build_statics()
-    build_shares()
+    if shares is None:
+        shares = get_shares()
+    build_shares(shares)
     return 0
 
 
@@ -43,8 +45,8 @@ def build_statics():
         f.write(static_html_template(html, "404 - Not Found!", footer))
 
 
-def build_shares():
-    for share in get_shares():
+def build_shares(shares: list[str]):
+    for share in shares:
         build_share(share)
 
 

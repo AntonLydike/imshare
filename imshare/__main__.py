@@ -42,7 +42,9 @@ def main(argv: list[str]):
     try:
         match argv:
             case ["build"]:
-                build()
+                build(None)
+            case ["build", *shares]:
+                build(shares)
             case ["gen-config", cfg]:
                 if cfg.lower() == "nginx":
                     print_nginx_conf()
@@ -74,8 +76,10 @@ USAGE:
 
 COMMAND:
           
-    build           
-                    (re)build the static files
+    build (share*)?
+                    (re)build either all or the selected shares.
+                    Generates the static HTML as well as processing
+                    the required images.
 
     export share dest
                     Export the share to the folder dest,
