@@ -1,5 +1,6 @@
 # from .misc import
 from .build import process_image, discover_images_in_share
+from .misc import mkdir
 import shutil
 from typing import Iterable
 
@@ -13,6 +14,8 @@ def iter_compressed_and_raw_paths(share: str) -> Iterable[tuple[str, str]]:
 
 
 def copy_compressed_with_plain_names_to(share: str, dest: str):
+    mkdir(dest)
+
     for id, img in iter_compressed_and_raw_paths(share):
         img = img.split("/")[-1]
         print(f"Copy web/images/{id}.jpg to {dest}/{img}")
